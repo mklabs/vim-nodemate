@@ -30,8 +30,8 @@ For the snippets to work, the filetype needs to be `javascript`.
 **Install for pathogen**
 
 ```sh
-cd ~/.vim/
-git submodule add git://github.com/mklabs/node.snipmate.git bundle/node.snipmate
+cd ~/.vim/bundle
+git clone git://github.com/mklabs/node.snipmate.git
 ```
 
 ## Snippets
@@ -40,6 +40,7 @@ Snippet generated from nodejs.org/api/ are all placed in a subdirectory
 `snippets/javascript/<trigger>/<name>.snippet' to allow multiple matches
 using `*.snippet` files.
 
+## Example: assert`<tab>`
 
 For instance, typing the `assert` trigger word followed by a `<tab>` would
 display the list of snippets for the `assert` module:
@@ -62,9 +63,9 @@ Type number and <Enter> or click with mouse (empty cancels):
 Snippets placeholder are also generated from the information provided by
 nodejs' api as json, with the list of paramaters for each method.
 
+## List
 
 Want to see the full list of almost 200 snippets generated? Here it is!
-
 
 ```sh
 ├── assert
