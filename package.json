@@ -1,0 +1,19 @@
+{
+  "author": "mklabs",
+  "name": "node.snipmate",
+  "description": "Collection of nodejs snippets for VIM snipmate. Generated from node doc",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mklabs/node.snipmate.git"
+  },
+  "dependencies": {
+    "request": "~2.9.202",
+    "mkdirp": "~0.3.1",
+    "fstream": "~0.1.18"
+  },
+  "main": "lib/snipstream",
+  "scripts": {
+    "install": "./bin/generate"
+  }
+}

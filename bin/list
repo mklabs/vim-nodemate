@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+
+
+var fs = require('fs'),
+  path = require('path'),
+  request = require('request'),
+  SnipStream = require('..');
+
+
+request({ uri: 'http://nodejs.org/api/all.json', json: true }, function(e, body, data) {
+  if(e) throw e;
+
+  console.log('Globals: ', data.globals.map(function(g) {
+    return g.name;
+  }).join(' '));
+
+  console.log();
+
+  console.log('Methods: ', data.methods.map(function(g) {
+    return g.name;
+  }).join(' '));
+
+  console.log('Modules: ', '\n -', data.modules.map(function(g) {
+    return g.name;
+  }).sort().join('\n - '));
+
+});
+
+
+
+

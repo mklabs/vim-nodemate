@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+
+var fs = require('fs'),
+  path = require('path'),
+  request = require('request'),
+  SnipStream = require('..');
+
+var files = fs.readFileSync(path.join(__dirname, '../modules.txt'), 'utf8')
+  .split(/\n/g).filter(function(l) { return l });
+
+var snipdir = path.join(__dirname, '../snippets');
+files.forEach(function(url) {
+  var name = path.basename(url).replace(path.extname(url), '');
+  request(url).pipe(new SnipStream());
+});
+
+
+
+
