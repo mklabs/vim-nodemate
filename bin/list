@@ -1,11 +1,9 @@
 #!/usr/bin/env node
 
-
 var fs = require('fs'),
   path = require('path'),
   request = require('request'),
   SnipStream = require('..');
-
 
 request({ uri: 'http://nodejs.org/api/all.json', json: true }, function(e, body, data) {
   if(e) throw e;
