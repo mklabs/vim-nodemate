@@ -49,9 +49,7 @@ function! s:nodeproto.complete(line)
   return split(out, "\n")
 endfunction
 
-
 let s:node = s:Object.create(s:nodeproto)
-
 
 function! node#app()
   return s:node
@@ -89,16 +87,23 @@ function! node#triggerCompl()
   let dotend = s:has(line, '\.$')
   if node#complete(line)
     let prefix = dotend ? '' : '.'
-    setlocal completefunc=node#compl
+    call node#enableCompl()
     return prefix . "\<C-X>\<C-U>"
   endif
   return ''
 endfunction
 
+function! node#enableCompl()
+  setlocal completefunc=node#compl
+endfunction
 
 " XXX add configuration option to prefix mapping with user defined
+autocmd FileType javascript call node#initCommands()
 autocmd FileType javascript inoremap <expr> <buffer> <C-Space> node#triggerCompl()
+autocmd FileType javascript inoremap <expr> <buffer> <C-X><C-U> node#triggerCompl()
 
-" this.foo
+function! node#initCommands()
+  command! -buffer NodeCompletion call node#enableCompl()
+endfunction
 
 " vim:set sw=2 sts=2:
