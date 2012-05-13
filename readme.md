@@ -1,12 +1,60 @@
 
-# vim node snippets
+# vim node
 
-Collection of node snippets, a pretty big one.
+Collection of snippets, utilities and custom completion for node.
 
-Actually, the whole snippets/ directory is generated dynamically from
-`http://nodejs.org/api/*.json`.
+*work in progess*
+
+## Installation
+
+**Install for [pathogen](https://github.com/tpope/vim-pathogen)**
+
+```sh
+cd ~/.vim/bundle
+git clone git://github.com/mklabs/node.snipmate.git
+```
+
+## Documentation
+
+**What it does**
 
 ---
+
+Node omni-omnicompleter.
+
+`:h new-omni-completion`.
+
+> This could also be called "intellisense", but that is a trademark.
+
+Should auto-complete whenever the text in front of the cursor includes
+one of node's core modules:
+
+```js
+var core = [
+  'assert', 'buffer', 'child_process', 'cluster', 'console',
+  'constants', 'crypto', 'dgram', 'dns', 'events', 'freelist',
+  'fs', 'http', 'https', 'module', 'net', 'os', 'path',
+  'punycode', 'querystring', 'readline', 'repl', 'stream', 'string_decoder',
+  'sys', 'timers', 'tls', 'tty', 'url', 'util', 'vm', 'zlib'
+];
+```
+
+It works by inspecting the current line below the cursor for a match to
+a known node module, in which cashe the given module is required, on
+which `Object.keys()` is called to complete with a list of match.
+
+Use `CTRL-X CTRL-U` in Insert mode to start the completion, when the
+cursor in in front of something like:
+
+    fs.*
+    fs.read*
+    path.*
+
+The plugin also map the `<C-Space>` (Ctrl+space) to trigger the same
+omnicompletion.
+
+
+## Snippets
 
 [http://nodejs.org/api/documentation.html](http://nodejs.org/api/documentation.html])
 
@@ -20,21 +68,6 @@ The whole nodejs documentation is available as `.json`, this allow us to
 do some awesome things with these information.. like generating a bunch
 of [snipmate](http://www.vim.org/scripts/script.php?script_id=2540)
 snippet.
-
-## Installation
-
-Put the `javascript` directory in your `~/.vim/snippets` directory and you're done.
-
-For the snippets to work, the filetype needs to be `javascript`.
-
-**Install for pathogen**
-
-```sh
-cd ~/.vim/bundle
-git clone git://github.com/mklabs/node.snipmate.git
-```
-
-## Snippets
 
 Snippet generated from nodejs.org/api/ are all placed in a subdirectory
 `snippets/javascript/<trigger>/<name>.snippet' to allow multiple matches

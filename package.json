@@ -1,13 +1,13 @@
 {
   "author": "mklabs",
   "name": "node.snipmate",
-  "description": "Collection of nodejs snippets for VIM snipmate. Generated from node doc",
+  "description": "Collection of nodejs snippets, utilities and completion for Vim.",
   "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/mklabs/node.snipmate.git"
   },
-  "dependencies": {
+  "devDependencies": {
     "request": "~2.9.202",
     "mkdirp": "~0.3.1",
     "fstream": "~0.1.18"

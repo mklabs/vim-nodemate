@@ -1,0 +1,48 @@
+#!/usr/bin/env node
+
+var core = [
+  'assert', 'buffer', 'child_process', 'cluster', 'console',
+  'constants', 'crypto', 'dgram', 'dns', 'events', 'freelist',
+  'fs', 'http', 'https', 'module', 'net', 'os', 'path',
+  'punycode', 'querystring', 'readline', 'repl', 'stream', 'string_decoder',
+  'sys', 'timers', 'tls', 'tty', 'url', 'util', 'vm', 'zlib'
+];
+
+// vim place us the completed line as first argv
+var line = process.argv.slice(2)[0] || '';
+
+// first split by \s, taking the last part
+line = line.split(' ').reverse()[0];
+
+// then split by `\.`, figure out which module to require and which subprop to filter
+var parts = line.split('.');
+
+// line can be the following: fs.read, in which case we require the given module
+// `fs`, and filter the results based on `read` pattern.
+
+var modname = parts[0],
+  completed = parts[1];
+
+if(!modname) return;
+
+var mod = require(modname);
+var props = Object.keys(mod);
+
+// fs. ->
+if(!completed) return console.log(props.map(function(prop) {
+  return '.' + prop;
+}).join('\n'));
+
+
+// fs.<sub> ->
+var filter = new RegExp('^' + completed || '', 'i');
+var match = props.filter(function(prop) {
+  return filter.test(prop);
+})
+
+.map(function(prop) {
+  return prop.replace(filter, '');
+});
+
+console.log(match.join('\n'));
+
