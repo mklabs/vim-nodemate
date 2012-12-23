@@ -10,11 +10,34 @@ Collection of snippets, utilities and custom completion for node.
 
 ```sh
 cd ~/.vim/bundle
-git clone git://github.com/mklabs/node.snipmate.git
+git clone git://github.com/mklabs/vim-nodemate.git
 ```
 
-You need [snipmate](https://github.com/msanders/snipmate.vim) plugin
-installed to be able to expand the bult-in generated snippets.
+### Dependencies
+
+None of these dependencies are strictly required for this plugin to work, but
+they are strongly recommended. The omni completion feature should work without
+them installed.
+
+You need [snipmate](https://github.com/msanders/snipmate.vim) plugin installed
+to be able to expand the bult-in generated snippets.
+
+You need [ctrlp](https://github.com/kien/ctrlp.vim),
+[open-browser](github.com/tyru/open-browser.vim) and
+[webapi-vim](https://github.com/mattn/webapi-vim) plugins to be able to use the
+`:CtrlPNodeDoc` extension.
+
+```sh
+cd ~/.vim/bundle
+
+# for snippets
+git clone git://github.com/msanders/snipmate.vim
+
+# for ctrlp nodedoc extension
+git clone git://github.com/kien/ctrlp.vim.git
+git clone git://github.com/tyru/open-browser.vim.git
+git clone git://github.com/mattn/webapi-vim.git
+```
 
 ## Snippets
 
@@ -79,6 +102,17 @@ content.
 When using `require.resolve()`, then the preview window will show the String
 conversion of `require(':module')['property']`. In the case of methods, it will
 show you the function signature and content, which can be incredibly useful.
+
+### CtrlP Extension
+
+Command: **`:CtrlPNodeDoc`**
+
+`:CtrlPNodeDoc` is a ctrlp extensions to search through the nodejs
+documentation. It'll list the identifiers parsed from
+http://nodejs.org/api/all.html. On selection, `openbrowser#open()` is called
+with the matching URL for the selected entry.
+
+Both `open-browser` and `webapi-vim` are required for this to work.
 
 ## List of Snippets
 
