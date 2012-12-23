@@ -73,13 +73,12 @@ If `"preview"` appears in your `completeopts` options, then it shows
 extra information about the currently selected completion in the preview
 window.
 
-For snippet based completion, the preview window will show the the snippet
+For snippet based completion, the preview window will show the snippet
 content.
 
-When using `require.resolve()`, then the preview window will show the result of
-String conversion of `require(':module')['property']`. In the case of methods,
-it will show you the function signature and content, which can be incredibly
-usefull.
+When using `require.resolve()`, then the preview window will show the String
+conversion of `require(':module')['property']`. In the case of methods, it will
+show you the function signature and content, which can be incredibly useful.
 
 ## List of Snippets
 
