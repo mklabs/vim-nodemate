@@ -27,19 +27,19 @@ installed to be able to expand the bult-in generated snippets.
 
 
 The whole nodejs documentation is available as `.json`, this allow us to
-do some fancy things with these information.. like generating a bunch of
+do some fancy things with this information.. like generating a bunch of
 snipmate snippet.
 
 Snippet generated from nodejs.org/api/ are all placed in a subdirectory
-`snippets/javascript/<module>/<name>.snippet' to allow multiple matches
-using `*.snippet` files.
-
-In addition, all these snippets files are used to setup the
-omni-completion below.
+`snippets/javascript/<module>/<name>.snippet`
 
 To regenerate the list of snippet, simply cd into the plugin location
 (usually `~/.vim/bundle/nodemate/`) and run `npm install` (this will
 install devDepencies and trigger the `./bin/generate` script)
+
+
+In addition, these snippets files are used to setup the omni-completion
+below.
 
 ## Omni Completion
 
@@ -49,11 +49,13 @@ See:
 * `:h complete-functions`
 
 This plugin enables and setup, for the `javascript` filetype, both
-`completefunc` and `omnifunc` to complete against the list of built-in
-snippet files.
+`completefunc` and `omnifunc` to complete against the list of built-in snippet
+files, **or** if no snippets where found, using `require.resolve('...')` plus
+object introspection with `Object.keys(require('...'))`.
 
-It should auto-complete whenever the text in front of the cursor includes
-one of node's core modules.
+It should auto-complete whenever the text in front of the cursor includes one
+of node's core modules, *or* any npm installed module. (as long as
+`require.resolve()` returns the module being completed)
 
 Use `CTRL-X CTRL-O` in Insert mode to start the completion, when the
 cursor in in front of something like:
@@ -62,10 +64,22 @@ cursor in in front of something like:
     fs.read*
     path.*
 
+    # npm install request
+    request.*
+
+### Preview window
+
 If `"preview"` appears in your `completeopts` options, then it shows
 extra information about the currently selected completion in the preview
-window, eg. the snippet content.
+window.
 
+For snippet based completion, the preview window will show the the snippet
+content.
+
+When using `require.resolve()`, then the preview window will show the result of
+String conversion of `require(':module')['property']`. In the case of methods,
+it will show you the function signature and content, which can be incredibly
+usefull.
 
 ## List of Snippets
 

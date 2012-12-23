@@ -68,6 +68,33 @@ function! s:base.complete(line)
     \}]
   endfor
 
+  " todo: set options to bypass lookup based on snippets, always go through
+  " require.resolve / require(). This is significantly slower, but the preview
+  " window will output the functions source, which can be incredibly handy,
+  " even for node core methods.
+
+  " let results = []
+
+  if !len(results)
+    let keys = split(system('node -pe "Object.keys(require(\"' . module . '\")).join(\"\n\")"'), '\n')
+
+    for key in keys
+      let word = '.' . key
+
+      if property != ''
+        let keys = filter(keys, 'fnamemodify(v:val, ":t:r") =~ "^' . property . '"')
+        let word = substitute(filename, property, '', '')
+      endif
+
+      let results += [{
+        \ 'word': word,
+        \ 'abbr': '.' . key,
+        \ 'menu': module . '#' . key,
+        \ 'info': system('node -pe "require(\"' . module . '\")[\"' . key . '\"] + \"\""')
+      \}]
+    endfor
+  endif
+
   return results
 endfunction
 
@@ -96,6 +123,16 @@ function! nodemate#complete(...)
       let ok = s:has(line, module . '\.\?\w*$')
     endif
   endfor
+
+  if !ok
+    " nok for node core, try require.resolve-ing it
+    let parts = split(line, '\.')
+    let module = parts[0]
+    let resolved = system('node -pe "require.resolve(\"' . module . '\")"')
+    if resolved !~ 'Cannot find'
+      let ok = 1
+    endif
+  endif
 
   return ok
 endfunction
