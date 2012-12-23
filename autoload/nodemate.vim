@@ -1,5 +1,5 @@
 if exists("g:loaded_nodematemate") || v:version < 700 || &cp
-  finish
+  " finish
 endif
 let g:loaded_nodematemate = 1
 
@@ -23,6 +23,11 @@ function! s:map(list, prefix)
   return map(copy(a:list), 'a:prefix . v:val')
 endfunction
 
+function! s:trim(str)
+  return substitute(a:str, '^\s*\(.\{-}\)\s*$', '\1', '')
+endfunction
+
+
 " nodemate app prototype
 let s:base = {}
 let s:base.basedir = expand('<sfile>:h:h')
@@ -40,7 +45,7 @@ endfunction
 
 function! s:base.complete(line)
   let parts = split(a:line, '\.')
-  let module = parts[0]
+  let module = s:trim(parts[0])
   let property = len(parts)  > 1 ? parts[1] : ''
   let basedir = self.basedir . '/snippets/javascript/' . module
   let pattern = basedir . '/*.snippet'
@@ -76,8 +81,13 @@ function! s:base.complete(line)
   " let results = []
 
   if !len(results)
-    let keys = split(system('node -pe "Object.keys(require(\"' . module . '\")).join(\"\n\")"'), '\n')
+    let bufferdir = expand('%:h')
+    let resolved = system('cd ' . bufferdir . ' && node -pe "require.resolve(\"' . module . '\")"')
+    if resolved =~ 'Cannot find'
+      return results
+    endif
 
+    let keys = split(system('cd ' . bufferdir . ' && node -pe "Object.keys(require(\"' . module . '\")).join(\"\n\")"'), '\n')
     for key in keys
       let word = '.' . key
 
@@ -90,7 +100,7 @@ function! s:base.complete(line)
         \ 'word': word,
         \ 'abbr': '.' . key,
         \ 'menu': module . '#' . key,
-        \ 'info': system('node -pe "require(\"' . module . '\")[\"' . key . '\"] + \"\""')
+        \ 'info': system('cd ' . bufferdir . ' && node -pe "var obj = require(\"' . module . '\")[\"' . key . '\"]; typeof obj === \"function\" ? obj + \"\" : require(\"util\").inspect(obj, true, 2)"')
       \}]
     endfor
   endif
